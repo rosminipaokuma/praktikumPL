@@ -1,0 +1,63 @@
+class TravelBooking:
+    def __init__(self):
+        self.routes = {
+            'Jakarta-Bandung': {'time': '08:00', 'seats': 10, 'price': 100000},
+            'Bandung-Surabaya': {'time': '14:00', 'seats': 15, 'price': 200000},
+            'Surabaya-Bali': {'time': '10:00', 'seats': 20, 'price': 300000},
+        }
+        self.contact_info = {}
+
+    def display_routes(self):
+        print("\n=== Rute Perjalanan yang Tersedia ===")
+        for route, details in self.routes.items():
+            print(f"{route} | Waktu: {details['time']} | Kursi Tersedia: {details['seats']} | Harga: {details['price']}")
+        print("====================================\n")
+
+    def select_route(self, selected_route):
+        if selected_route in self.routes:
+            route_details = self.routes[selected_route]
+            if route_details['seats'] > 0:
+                print(f"\nAnda memilih rute: {selected_route}")
+                print(f"Waktu: {route_details['time']}, Kursi Tersedia: {route_details['seats']}, Harga: {route_details['price']}\n")
+                return True
+            else:
+                print("\nMaaf, kursi sudah penuh untuk rute ini.\n")
+                return False
+        else:
+            print("\nRute tidak ditemukan. Silakan pilih rute yang tersedia.\n")
+            return False
+
+    def collect_contact_info(self):
+        print("\n=== Masukkan Informasi Kontak Anda ===")
+        self.contact_info['nama'] = input("Nama: ")
+        self.contact_info['telepon'] = input("Nomor Telepon: ")
+        self.contact_info['email'] = input("Email: ")
+        print("======================================\n")
+
+    def complete_payment(self, selected_route):
+        if selected_route in self.routes:
+            price = self.routes[selected_route]['price']
+            print(f"\nTotal yang harus dibayar: {price}")
+            print("\n=== Pilih Metode Pembayaran ===")
+            print("1. Transfer Bank")
+            print("2. E-Wallet")
+            print("3. Kartu Kredit")
+            metode = input("Masukkan pilihan Anda (1/2/3): ")
+
+            if metode in ['1', '2', '3']:
+                self.routes[selected_route]['seats'] -= 1
+                print("\nPembayaran berhasil. Terima kasih telah memesan travel dengan kami!\n")
+            else:
+                print("\nMetode pembayaran tidak valid.\n")
+
+if __name__ == "__main__":
+    booking = TravelBooking()
+
+    print("\n=== Selamat Datang di Sistem Pemesanan Travel ===")
+    booking.display_routes()
+
+    selected_route = input("Masukkan rute perjalanan yang ingin Anda pilih: ")
+    if booking.select_route(selected_route):
+        booking.collect_contact_info()
+        booking.complete_payment(selected_route)
+    print("\nTerima kasih telah menggunakan layanan kami!\n")
